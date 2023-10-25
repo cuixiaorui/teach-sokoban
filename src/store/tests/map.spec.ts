@@ -17,4 +17,17 @@ describe("map", () => {
       [1, 1, 1, 1, 1],
     ]);
   });
+
+  it("should setup map", () => {
+    const { map, setupMap } = useMapStore();
+    const newMap = [
+      [1, 1, 1],
+      [1, 1, 1],
+      [1, 1, 1],
+    ];
+
+    setupMap(newMap);
+
+    expect(map).toEqual(newMap);
+  });
 });
