@@ -14,7 +14,10 @@ import Player from "./Player.vue";
 import Cargo from "./Cargo.vue";
 import { useCargoStore } from "../../store/cargo";
 
-const { cargos } = useCargoStore();
+const { cargos, addCargo, createCargo } = useCargoStore();
+
+addCargo(createCargo({ x: 2, y: 2 }));
+addCargo(createCargo({ x: 3, y: 3 }));
 </script>
 
 <style scoped></style>
