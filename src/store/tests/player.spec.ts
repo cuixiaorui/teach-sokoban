@@ -211,9 +211,40 @@ describe("player", () => {
       player.x = 3;
       player.y = 1;
 
-      movePlayerToRight()
+      movePlayerToRight();
 
-      expect(player.x).toBe(4)
+      expect(player.x).toBe(4);
+    });
+
+    it("should not push cargo when the cargo hits wall", () => {
+      const { addCargo, createCargo } = useCargoStore();
+      const cargo = createCargo({ x: 1, y: 1 });
+      addCargo(cargo);
+      // setup
+      const { movePlayerToLeft, player } = usePlayerStore();
+      player.x = 2;
+      player.y = 1;
+
+      movePlayerToLeft();
+
+      expect(player.x).toBe(2);
+      expect(cargo.x).toBe(1);
+    });
+
+    it("should not push cargo when the cargo hits other cargo", () => {
+      // setup
+      const { addCargo, createCargo } = useCargoStore();
+      const cargo = createCargo({ x: 2, y: 1 });
+      addCargo(cargo);
+      addCargo(createCargo({ x: 3, y: 1 }));
+      const { movePlayerToRight, player } = usePlayerStore();
+      player.x = 1;
+      player.y = 1;
+
+      movePlayerToRight();
+
+      expect(player.x).toBe(1);
+      expect(cargo.x).toBe(2);
     });
   });
 });
