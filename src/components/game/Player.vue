@@ -9,10 +9,12 @@ import { onMounted, onUnmounted } from "vue";
 import keeperImg from "../../assets/keeper.png";
 import { usePlayerStore } from "../../store/player";
 import { usePosition } from "../../composables/usePosition";
+import { useGameStore } from "../../store/game";
 
 useMove();
 const { player } = usePlayerStore();
 const { position } = usePosition(player);
+const { detectionGameCompleted } = useGameStore();
 
 function useMove() {
   const {
@@ -37,6 +39,7 @@ function useMove() {
         movePlayerToDown();
         break;
     }
+    detectionGameCompleted();
   }
 
   onMounted(() => {

@@ -8,16 +8,7 @@ interface Target {
 }
 
 export const useTargetStore = defineStore("target", () => {
-  const targets = reactive<Target[]>([
-    {
-      x: 4,
-      y: 3,
-    },
-    {
-      x: 5,
-      y: 3,
-    },
-  ]);
+  const targets = reactive<Target[]>([]);
 
   function addTarget(target: Target) {
     targets.push(target);
@@ -30,7 +21,7 @@ export const useTargetStore = defineStore("target", () => {
     };
   }
 
-  function findTarget (position: Position) {
+  function findTarget(position: Position) {
     return targets.find((t) => t.x === position.x && t.y === position.y);
   }
 
