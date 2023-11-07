@@ -2,10 +2,22 @@ import { it, expect, describe, beforeEach } from "vitest";
 import { useCargoStore } from "../cargo";
 import { createPinia, setActivePinia } from "pinia";
 import { useTargetStore } from "../target";
+import { useMapStore } from "../map";
 
 describe("cargo", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
+
+    let map = [
+      [1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 2, 2, 2, 2, 2, 2, 1],
+      [1, 2, 2, 2, 2, 2, 2, 1],
+      [1, 2, 2, 2, 2, 2, 2, 1],
+      [1, 1, 1, 1, 1, 1, 1, 1],
+    ];
+
+    const { setupMap } = useMapStore();
+    setupMap(map);
   });
 
   it("should add a cargo", () => {
@@ -17,32 +29,30 @@ describe("cargo", () => {
 
   describe("on target", () => {
     it("shift in", () => {
-      const { addCargo, createCargo, moveCargo} = useCargoStore();
-      const cargo = createCargo({ x: 2, y: 1 })
+      const { addCargo, createCargo, moveCargo } = useCargoStore();
+      const cargo = createCargo({ x: 2, y: 1 });
       addCargo(cargo);
 
-      const {addTarget, createTarget} = useTargetStore()
-      addTarget(createTarget({x: 3, y: 1}))
+      const { addTarget, createTarget } = useTargetStore();
+      addTarget(createTarget({ x: 3, y: 1 }));
 
-      moveCargo(cargo, 1, 0)
+      moveCargo(cargo, 1, 0);
 
-      expect(cargo.onTarget).toBe(true)
+      expect(cargo.onTarget).toBe(true);
     });
 
     it("shift out", () => {
-      const { addCargo, createCargo, moveCargo} = useCargoStore();
-      const cargo = createCargo({ x: 2, y: 1 })
+      const { addCargo, createCargo, moveCargo } = useCargoStore();
+      const cargo = createCargo({ x: 2, y: 1 });
       addCargo(cargo);
 
-      const {addTarget, createTarget} = useTargetStore()
-      addTarget(createTarget({x: 3, y: 1}))
+      const { addTarget, createTarget } = useTargetStore();
+      addTarget(createTarget({ x: 3, y: 1 }));
 
-      moveCargo(cargo, 1, 0)
-      moveCargo(cargo, 1, 0)
+      moveCargo(cargo, 1, 0);
+      moveCargo(cargo, 1, 0);
 
-      expect(cargo.onTarget).toBe(false)
-
-
+      expect(cargo.onTarget).toBe(false);
     });
   });
 });
