@@ -5,6 +5,77 @@ import { useTargetStore } from "../target";
 import { createPinia, setActivePinia } from "pinia";
 import { useMapStore } from "../map";
 import { usePlayerStore } from "../player";
+import { LevelGameData } from "../../game/gameData";
+
+const firstLevelGameData = {
+  player: {
+    x: 1,
+    y: 1,
+  },
+  map: [
+    [1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 2, 2, 2, 2, 2, 2, 1],
+    [1, 2, 2, 2, 2, 2, 2, 1],
+    [1, 2, 2, 2, 2, 2, 2, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1],
+  ],
+  cargos: [
+    {
+      x: 2,
+      y: 2,
+    },
+    {
+      x: 3,
+      y: 3,
+    },
+  ],
+  targets: [
+    {
+      x: 4,
+      y: 3,
+    },
+    {
+      x: 6,
+      y: 3,
+    },
+  ],
+};
+
+const secondLevelGameData = {
+  player: {
+    x: 2,
+    y: 1,
+  },
+  map: [
+    [1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 2, 2, 2, 2, 2, 2, 1],
+    [1, 2, 2, 2, 2, 2, 2, 1],
+    [1, 2, 2, 2, 2, 2, 2, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1],
+  ],
+  cargos: [
+    {
+      x: 2,
+      y: 2,
+    },
+    {
+      x: 3,
+      y: 3,
+    },
+  ],
+  targets: [
+    {
+      x: 4,
+      y: 3,
+    },
+    {
+      x: 6,
+      y: 3,
+    },
+  ],
+};
+
+const gameData = [firstLevelGameData, secondLevelGameData];
 
 describe("game", () => {
   beforeEach(() => {
@@ -58,51 +129,43 @@ describe("game", () => {
   it("should setup game", () => {
     const { setupGame } = useGameStore();
 
-    const levelGameData = {
-      player: {
-        x: 1,
-        y: 1,
-      },
-      map: [
-        [1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 2, 2, 2, 2, 2, 2, 1],
-        [1, 2, 2, 2, 2, 2, 2, 1],
-        [1, 2, 2, 2, 2, 2, 2, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1],
-      ],
-      cargos: [
-        {
-          x: 2,
-          y: 2,
-        },
-        {
-          x: 3,
-          y: 3,
-        },
-      ],
-      targets: [
-        {
-          x: 4,
-          y: 3,
-        },
-        {
-          x: 6,
-          y: 3,
-        },
-      ],
-    };
+    setupGame(gameData);
 
-    setupGame(levelGameData);
+    expectSetupLevelGameData(firstLevelGameData);
+  });
 
-    const { player } = usePlayerStore();
-    const { map } = useMapStore();
-    const { cargos } = useCargoStore();
-    const { targets } = useTargetStore();
+  it("should to next level", () => {
+    const { setupGame, toNextLevel, game } = useGameStore();
 
-    expect(player.x).toBe(levelGameData.player.x);
-    expect(player.y).toBe(levelGameData.player.y);
-    expect(map).toEqual(levelGameData.map);
-    expect(cargos.length).toBe(levelGameData.cargos.length);
-    expect(targets.length).toBe(levelGameData.targets.length);
+    setupGame(gameData);
+
+    toNextLevel();
+
+    expect(game.level).toBe(2);
+    expectSetupLevelGameData(secondLevelGameData);
+  });
+
+  it("should be reset game completed when to next level", () => {
+    const { setupGame, toNextLevel, game } = useGameStore();
+    game.isGameCompleted = true;
+
+    setupGame(gameData);
+
+    toNextLevel();
+
+    expect(game.isGameCompleted).toBe(false);
   });
 });
+
+function expectSetupLevelGameData(levelGameData: LevelGameData) {
+  const { player } = usePlayerStore();
+  const { map } = useMapStore();
+  const { cargos } = useCargoStore();
+  const { targets } = useTargetStore();
+
+  expect(player.x).toBe(levelGameData.player.x);
+  expect(player.y).toBe(levelGameData.player.y);
+  expect(map).toEqual(levelGameData.map);
+  expect(cargos.length).toBe(levelGameData.cargos.length);
+  expect(targets.length).toBe(levelGameData.targets.length);
+}
