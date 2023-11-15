@@ -7,4 +7,9 @@ export default defineConfig({
     environment: "happy-dom",
   },
   plugins: [vue()],
+  resolve: {
+    alias: {
+      "@": "/src",
+    },
+  },
 });

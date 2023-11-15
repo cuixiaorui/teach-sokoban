@@ -15,14 +15,14 @@
 </template>
 
 <script setup lang="ts">
-import Map from "./Map.vue";
-import Player from "./Player.vue";
-import Cargo from "./Cargo.vue";
-import Target from "./Target.vue";
-import { useCargoStore } from "../../store/cargo";
-import { useGameStore } from "../../store/game";
-import { useTargetStore } from "../../store/target";
-import { gameData } from "../../game/gameData";
+import Map from "@/components/game/Map.vue";
+import Player from "@/components/game/Player.vue";
+import Cargo from "@/components/game/Cargo.vue";
+import Target from "@/components/game/Target.vue";
+import { useCargoStore } from "@/store/cargo";
+import { useGameStore } from "@/store/game";
+import { useTargetStore } from "@/store/target";
+import { gameData } from "@/game/gameData";
 
 const { game, setupGame, toNextLevel } = useGameStore();
 const { cargos } = useCargoStore();
