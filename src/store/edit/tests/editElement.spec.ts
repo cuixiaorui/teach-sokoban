@@ -1,12 +1,18 @@
 import { setActivePinia, createPinia } from "pinia";
 import { it, expect, describe, beforeEach } from "vitest";
-import { floorEditElement, useEditElementStore, wallEditElement } from "../editElement";
+import {
+  floorEditElement,
+  useEditElementStore,
+  wallEditElement,
+} from "../editElement";
 import { useMapEditStore } from "../mapEdit";
 import { MapTile } from "@/store/map";
 
 describe("editElement", () => {
   beforeEach(() => {
     setActivePinia(createPinia());
+    const { initMap } = useMapEditStore();
+    initMap();
   });
 
   it("should change to wall when current selected element is wall", () => {
