@@ -13,6 +13,7 @@
 import { MapTile } from "@/store/map";
 import wallImg from "@/assets/wall.png";
 import floorImg from "@/assets/floor.png";
+import { useEditElementStore } from "@/store/edit/editElement";
 import { useMapEditStore } from "@/store/edit/mapEdit";
 
 interface Props {
@@ -21,11 +22,12 @@ interface Props {
 }
 
 const { map } = useMapEditStore();
+const { getCurrentSelectedEditElement } = useEditElementStore();
 
 const props = defineProps<Props>();
 
 function handleClick() {
-  map[props.y][props.x] = MapTile.WALL;
+  getCurrentSelectedEditElement().execute(props);
 }
 </script>
 
