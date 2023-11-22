@@ -4,9 +4,11 @@ import {
   floorEditElement,
   useEditElementStore,
   wallEditElement,
+  playerEditElement,
 } from "../editElement";
 import { useMapEditStore } from "../mapEdit";
 import { MapTile } from "@/store/map";
+import { useEditPlayerStore } from "../editPlayer";
 
 describe("editElement", () => {
   beforeEach(() => {
@@ -37,5 +39,22 @@ describe("editElement", () => {
     getCurrentSelectedEditElement().execute({ x: 1, y: 1 });
 
     expect(map[1][1]).toBe(MapTile.FLOOR);
+  });
+
+  it("should update position of player when current selected element is player", () => {
+    const { player } = useEditPlayerStore();
+    const { getCurrentSelectedEditElement, setCurrentSelectedEditElement } =
+      useEditElementStore();
+
+    setCurrentSelectedEditElement(playerEditElement);
+
+    const position = {
+      x: 1,
+      y: 1,
+    };
+    getCurrentSelectedEditElement().execute(position);
+
+    expect(player.x).toBe(position.x);
+    expect(player.y).toBe(position.y);
   });
 });

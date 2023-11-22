@@ -1,5 +1,5 @@
 import { it, expect, describe } from "vitest";
-import { usePosition } from "../usePosition";
+import { STEP_EDIT, usePosition } from "../usePosition";
 import { reactive } from "vue";
 
 describe("usePosition", () => {
@@ -14,7 +14,19 @@ describe("usePosition", () => {
       left: "32px",
       top: "32px",
     });
+  });
 
+  it("should set step", () => {
+    const pos = {
+      x: 1,
+      y: 1,
+    };
+    const { position } = usePosition(pos, STEP_EDIT);
+
+    expect(position.value).toEqual({
+      left: "34px",
+      top: "34px",
+    });
   });
 
   it("should update position when reactive data changed", () => {
@@ -24,12 +36,11 @@ describe("usePosition", () => {
     });
     const { position } = usePosition(pos);
 
-    pos.x = 2
+    pos.x = 2;
 
     expect(position.value).toEqual({
       left: "64px",
       top: "32px",
     });
-
   });
 });

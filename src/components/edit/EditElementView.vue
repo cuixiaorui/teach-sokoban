@@ -15,12 +15,21 @@
       <EditElement :edit-element="wallEditElement"></EditElement>
       <EditElement :edit-element="floorEditElement"></EditElement>
     </div>
+
+    <div class="flex">
+      <h4>玩家:</h4>
+      <EditElement :edit-element="playerEditElement"></EditElement>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import EditElement from "./EditElement.vue";
-import { wallEditElement, floorEditElement } from "@/store/edit/editElement";
+import {
+  wallEditElement,
+  floorEditElement,
+  playerEditElement,
+} from "@/store/edit/editElement";
 import { useMapEditStore } from "@/store/edit/mapEdit";
 import { toRefs, watchEffect } from "vue";
 
@@ -30,12 +39,12 @@ const { row, col } = toRefs(useMapEditStore());
 initMap();
 
 watchEffect(() => {
-  if(!row.value) return
+  if (!row.value) return;
   updateMapRow();
 });
 
 watchEffect(() => {
-  if(!col.value) return
+  if (!col.value) return;
   updateMapCol();
 });
 </script>
