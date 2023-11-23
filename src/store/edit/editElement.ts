@@ -5,8 +5,10 @@ import { useMapEditStore } from "./mapEdit";
 import wallImg from "@/assets/wall.png";
 import floorImg from "@/assets/floor.png";
 import playerImg from "@/assets/keeper.png";
+import cargoImg from "@/assets/cargo.png";
 import { useEditPlayerStore } from "./editPlayer";
 import { ref } from "vue";
+import { useEditCargoStore } from "./editCargo";
 
 export interface EditElement {
   name: string;
@@ -39,6 +41,16 @@ export const playerEditElement: EditElement = {
     const { player } = useEditPlayerStore();
     player.x = position.x;
     player.y = position.y;
+  },
+};
+
+export const cargoEditElement: EditElement = {
+  name: "箱子",
+  img: cargoImg,
+  execute(position) {
+    const { addCargo, createCargo } = useEditCargoStore();
+
+    addCargo(createCargo({ x: position.x, y: position.y }));
   },
 };
 

@@ -16,9 +16,10 @@
       <EditElement :edit-element="floorEditElement"></EditElement>
     </div>
 
-    <div class="flex">
+    <div class="flex space-x-2">
       <h4>玩家:</h4>
       <EditElement :edit-element="playerEditElement"></EditElement>
+      <EditElement :edit-element="cargoEditElement"></EditElement>
     </div>
 
     <div>当前选择的: {{ selectedEditElementName }}</div>
@@ -31,6 +32,7 @@ import {
   wallEditElement,
   floorEditElement,
   playerEditElement,
+  cargoEditElement,
 } from "@/store/edit/editElement";
 import { useMapEditStore } from "@/store/edit/mapEdit";
 import { computed, toRefs, watchEffect } from "vue";
@@ -57,7 +59,7 @@ const selectedEditElementName = computed(() => {
     return "没有选择";
   }
 
-  return getCurrentSelectedEditElement().name
+  return getCurrentSelectedEditElement().name;
 });
 </script>
 

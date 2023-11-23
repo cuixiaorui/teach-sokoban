@@ -5,10 +5,12 @@ import {
   useEditElementStore,
   wallEditElement,
   playerEditElement,
+  cargoEditElement,
 } from "../editElement";
 import { useMapEditStore } from "../mapEdit";
 import { MapTile } from "@/store/map";
 import { useEditPlayerStore } from "../editPlayer";
+import { useEditCargoStore } from "../editCargo";
 
 describe("editElement", () => {
   beforeEach(() => {
@@ -24,7 +26,7 @@ describe("editElement", () => {
 
     setCurrentSelectedEditElement(wallEditElement);
 
-    getCurrentSelectedEditElement().execute({ x: 1, y: 1 });
+    getCurrentSelectedEditElement()!.execute({ x: 1, y: 1 });
 
     expect(map[1][1]).toBe(MapTile.WALL);
   });
@@ -36,7 +38,7 @@ describe("editElement", () => {
 
     setCurrentSelectedEditElement(floorEditElement);
 
-    getCurrentSelectedEditElement().execute({ x: 1, y: 1 });
+    getCurrentSelectedEditElement()!.execute({ x: 1, y: 1 });
 
     expect(map[1][1]).toBe(MapTile.FLOOR);
   });
@@ -52,9 +54,26 @@ describe("editElement", () => {
       x: 1,
       y: 1,
     };
-    getCurrentSelectedEditElement().execute(position);
+    getCurrentSelectedEditElement()!.execute(position);
 
     expect(player.x).toBe(position.x);
     expect(player.y).toBe(position.y);
+  });
+
+  it("should add a cargo when current selected element is cargo", () => {
+    const { cargos } = useEditCargoStore();
+    const { getCurrentSelectedEditElement, setCurrentSelectedEditElement } =
+      useEditElementStore();
+
+    setCurrentSelectedEditElement(cargoEditElement);
+
+    const position = {
+      x: 1,
+      y: 1,
+    };
+    getCurrentSelectedEditElement()!.execute(position);
+
+    expect(cargos[0].x).toBe(position.x);
+    expect(cargos[0].y).toBe(position.y);
   });
 });
