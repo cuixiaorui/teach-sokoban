@@ -6,9 +6,11 @@ import wallImg from "@/assets/wall.png";
 import floorImg from "@/assets/floor.png";
 import playerImg from "@/assets/keeper.png";
 import cargoImg from "@/assets/cargo.png";
+import TargetImg from "@/assets/target.png";
 import { useEditPlayerStore } from "./editPlayer";
 import { ref } from "vue";
 import { useEditCargoStore } from "./editCargo";
+import { useEditTargetStore } from "./editTarget";
 
 export interface EditElement {
   name: string;
@@ -51,6 +53,16 @@ export const cargoEditElement: EditElement = {
     const { addCargo, createCargo } = useEditCargoStore();
 
     addCargo(createCargo({ x: position.x, y: position.y }));
+  },
+};
+
+export const targetEditElement: EditElement = {
+  name: "放置点",
+  img: TargetImg,
+  execute(position) {
+    const { addTarget, createTarget } = useEditTargetStore();
+
+    addTarget(createTarget({ x: position.x, y: position.y }));
   },
 };
 
